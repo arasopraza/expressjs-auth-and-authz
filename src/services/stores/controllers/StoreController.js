@@ -13,7 +13,7 @@ const createStore = async (req, res) => {
     const { id } = req.user;
 
     const { error, value } = validator.validatePayload(req.body);
-    
+
     if (error) {
       return response(res, 400, error.message, null);
     }

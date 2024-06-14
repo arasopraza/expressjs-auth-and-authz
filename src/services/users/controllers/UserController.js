@@ -6,13 +6,13 @@ const createUser = async (req, res) => {
   try {
     const { username, password, fullname } = req.body;
     const { error, value } = validator.validatePayload(req.body);
-    
+
     if (error) {
       return response(res, 400, error.message, null);
     }
 
     req.body = value;
-    
+
     const user = await UserRepositories.createNewUser({ username, password, fullname });
     return response(res, 201, 'User Created Successfully', user);
   } catch (error) {
