@@ -1,5 +1,6 @@
 const StoreRepositories = require('../repositories');
 const response = require('../../../utils/response');
+const validator = require('../../../validator/stores');
 
 const createStore = async (req, res) => {
   try {
@@ -10,6 +11,14 @@ const createStore = async (req, res) => {
     } = req.body;
 
     const { id } = req.user;
+
+    const { error, value } = validator.validatePayload(req.body);
+    
+    if (error) {
+      return response(res, 400, error.message, null);
+    }
+
+    req.body = value;
 
     const store = await StoreRepositories.createStore({
       name,
@@ -34,6 +43,14 @@ const editStore = async (req, res) => {
 
     const { id } = req.params;
     const { id: owner } = req.user;
+
+    const { error, value } = validator.validatePayload(req.body);
+
+    if (error) {
+      return response(res, 400, error.message, null);
+    }
+
+    req.body = value;
 
     const store = await StoreRepositories.editStore({
       id,
