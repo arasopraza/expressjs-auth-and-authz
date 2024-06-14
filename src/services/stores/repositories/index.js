@@ -18,7 +18,7 @@ class StoreRepositories {
     return result.rows[0];
   }
 
-  async editStore({ id, name, address }) {
+  async editStore({ id, name, address, rating, owner }) {
     const query = {
       text: 'UPDATE stores SET name = $1, address = $2, rating = $3, owner = $4 WHERE id = $5 RETURNING id, name, address, rating, owner',
       values: [name, address, rating, owner, id],

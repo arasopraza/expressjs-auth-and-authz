@@ -27,23 +27,21 @@ const createStore = async (req, res) => {
 const editStore = async (req, res) => {
   try {
     const {
-      id,
       name,
-      address
+      address,
+      rating,
     } = req.body;
+
+    const { id } = req.params;
+    const { id: owner } = req.user;
 
     const store = await StoreRepositories.editStore({
       id,
       name,
-      address
+      address,
+      rating,
+      owner
     });
-
-    const response = {
-      data: {
-        store
-      },
-      message: 'Store edited successfully'
-    };
 
     return response(res, 200, 'Store edited successfully', store);
   } catch (error) {
