@@ -1,7 +1,7 @@
 const TokenManager = require('../services/security/JsonWebToken');
 const response = require('../utils/response');
 
-async function authenticateJWT (req, res, next) {
+async function authenticateJWT(req, res, next) {
   const token = req.headers.authorization;
   if (token && token.indexOf('Bearer ') !== -1) {
     try {
