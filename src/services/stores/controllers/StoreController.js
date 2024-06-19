@@ -2,7 +2,7 @@ const StoreRepositories = require('../repositories');
 const response = require('../../../utils/response');
 const validator = require('../../../validator/stores');
 
-const createStore = async (req, res) => {
+const createStore = async (req, res, next) => {
   try {
     const {
       name,
@@ -29,11 +29,11 @@ const createStore = async (req, res) => {
 
     return response(res, 201, 'Store Created Successfully', store);
   } catch (error) {
-    return response(res, 500, error.message, null);
+    next(error);
   }
 };
 
-const editStore = async (req, res) => {
+const editStore = async (req, res, next) => {
   try {
     const {
       name,
@@ -62,7 +62,7 @@ const editStore = async (req, res) => {
 
     return response(res, 200, 'Store edited successfully', store);
   } catch (error) {
-    return response(res, 500, error.message, null);
+    next(error);
   }
 };
 
