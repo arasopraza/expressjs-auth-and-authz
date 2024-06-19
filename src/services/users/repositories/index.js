@@ -27,10 +27,6 @@ class UserRepositories {
 
     const result = await this._pool.query(query);
 
-    if (!result.rows.length) {
-      throw new Error('Users not found');
-    }
-
     return result.rows;
   }
 }

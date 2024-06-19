@@ -2,7 +2,7 @@ const AuthRepositories = require('../repositories');
 const TokenManager = require('../../security/JsonWebToken');
 const response = require('../../../utils/response');
 
-const login = async (req, res) => {
+const login = async (req, res, next) => {
   try {
     const { username, password } = req.body;
     const id = await AuthRepositories.verifyUserCredential({ username, password });
@@ -10,7 +10,7 @@ const login = async (req, res) => {
 
     return response(res, 200, 'Login Success', { accessToken });
   } catch (error) {
-    return response(res, 500, error.message, null);
+    next(error);
   }
 };
 

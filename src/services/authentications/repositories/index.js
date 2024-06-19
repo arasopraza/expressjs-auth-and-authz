@@ -1,5 +1,7 @@
 const { Pool } = require('pg');
 const bcrypt = require('bcrypt');
+const ClientError = require('../../../exceptions/ClientError');
+const NotFoundError = require('../../../exceptions/NotFoundError');
 require('dotenv').config();
 
 class AuthRepositories {
@@ -16,7 +18,7 @@ class AuthRepositories {
     const result = await this._pool.query(query);
 
     if (!result.rows.length) {
-      throw new Error('User tidak ditemukan');
+      throw new NotFoundError('User tidak ditemukan', 404);
     }
 
     const { id, password: hashedPassword } = result.rows[0];
@@ -24,7 +26,7 @@ class AuthRepositories {
     const match = await bcrypt.compare(password, hashedPassword);
 
     if (!match) {
-      throw new Error('Kredensial yang Anda berikan salah');
+      throw new ClientError('Kredensial yang Anda berikan salah', 400);
     }
 
     return id;
