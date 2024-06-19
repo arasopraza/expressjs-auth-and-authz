@@ -29,6 +29,17 @@ class UserRepositories {
 
     return result.rows;
   }
+
+  async getUserByUsername(username) {
+    const query = {
+      text: 'SELECT username FROM users WHERE username = $1',
+      values: [username],
+    };
+
+    const result = await this._pool.query(query);
+
+    return result.rows[0];
+  }
 }
 
 module.exports = new UserRepositories();

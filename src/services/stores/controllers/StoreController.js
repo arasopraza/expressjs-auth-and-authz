@@ -1,6 +1,7 @@
 const StoreRepositories = require('../repositories');
 const response = require('../../../utils/response');
 const validator = require('../../../validator/stores');
+const ClientError = require('../../../exceptions/ClientError');
 
 const createStore = async (req, res, next) => {
   try {
@@ -15,7 +16,7 @@ const createStore = async (req, res, next) => {
     const { error, value } = validator.validatePayload(req.body);
 
     if (error) {
-      return response(res, 400, error.message, null);
+      throw new ClientError(error.message, 400);
     }
 
     req.body = value;
@@ -47,7 +48,7 @@ const editStore = async (req, res, next) => {
     const { error, value } = validator.validatePayload(req.body);
 
     if (error) {
-      return response(res, 400, error.message, null);
+      throw new ClientError(error.message, 400);
     }
 
     req.body = value;
